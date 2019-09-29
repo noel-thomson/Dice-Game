@@ -37,6 +37,13 @@ h1 {
   font-weight: 400;
 }
 
+.fas {
+  color: khaki;
+  line-height: 1.2;
+  margin: 0;
+  padding: 0 10px  ;
+}
+
 #heading {
   font-size: 36px;
   padding-bottom: 5px;
