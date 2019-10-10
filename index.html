@@ -9,43 +9,40 @@
 
         <link type="text/css" rel="stylesheet" href="style.css">
 
-        <title>Dice Game</title>
+        <title>card Game</title>
     </head>
 
     <body>
         <div class="rules">
-          <h1 id="heading">The Dice Game:</h1>
-          <h1>Press hold to save your current score
-          <br>If you roll a 1, you lose your score
-          <br>Reach a score of over 20 to win <i class="fas fa-medal"></i></h1>
+          <h1 id="heading">Blackjack</h1>
         </div>
         <div class="wrapper clearfix">
             <div class="player-0-panel active">
-                <div class="player-name" id="name-0">Player 1</div>
+                <div class="player-name" id="current-0">Player 1</div>
                 <div class="player-score" id="score-0">43</div>
-                <div class="player-current-box">
+                <!-- <div class="player-current-box">
                     <div class="player-current-label">Round Score</div>
                     <div class="player-current-score" id="current-0">11</div>
-                </div>
+                </div> -->
             </div>
 
             <div class="player-1-panel">
-                <div class="player-name" id="name-1">Player 2</div>
+                <div class="player-name" id="current-1">Player 2</div>
                 <div class="player-score" id="score-1">72</div>
-                <div class="player-current-box">
+                <!-- <div class="player-current-box">
                     <div class="player-current-label">Round Score</div>
                     <div class="player-current-score" id="current-1">0</div>
-                </div>
+                </div> -->
             </div>
 
             <button class="btn-new"><i class="ion-ios-plus-outline"></i>New game</button>
-            <button class="btn-roll"><i class="ion-ios-loop"></i>Roll dice</button>
+            <button class="btn-draw"><i class="ion-ios-loop"></i>Draw card</button>
             <button class="btn-hold"><i class="ion-ios-download-outline"></i>Hold</button>
 
-            <input type="text" placeholder="Enter a Goal" class="final-score">
+            <!-- <input type="text" placeholder="Enter a Goal" class="final-score"> -->
 
-            <img src="dice-5.png" alt="Dice" class="dice" id="dice-1">
-            <!-- <img src="dice-5.png" alt="Dice" class="dice" id="dice-2"> -->
+            <img src="./cards/1C.png" alt="Card" class="card" id="card">
+            <!-- <img src="card-5.png" alt="card" class="card" id="card-2"> -->
 
         </div>
 
