@@ -31,13 +31,6 @@ h1 {
   font-size: 28px;
 }
 
-.fas {
-  color: khaki;
-  line-height: 1.2;
-  margin: 0;
-  padding: 0 10px  ;
-}
-
 #heading {
   font-size: 36px;
   font-weight: 600;
@@ -69,73 +62,6 @@ h1 {
     padding: 100px;
 }
 
-@media (max-width: 1000px) {
-  .wrapper {
-    width: 100vw
-  }
-
-  .player-0-panel,
-  .player-1-panel {
-      width: 50%;
-      float: left;
-      height: 600px;
-      padding: 100px;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-  }
-
-  /* Players */
-
-  .player-name {
-      font-size: 40px;
-      text-transform: uppercase;
-      letter-spacing: 10px;
-      font-weight: 100;
-      margin: 20px 0 10px;
-  }
-
-  .player-score {
-      text-align: center;
-      font-size: 80px;
-      font-weight: 100;
-      color: #EB4D4D;
-      margin-top: 130px;
-      align-self: center;
-      position: absolute;
-      left: 50%;
-      transform: translatex(-50%);
-  }
-
-  .active { background-color: #f7f7f7; }
-  .active .player-name { font-weight: 300; }
-
-  .active .player-name::after {
-      content: "\2022";
-      font-size: 47px;
-      position: absolute;
-      color: #EB4D4D;
-      align-self: center;
-      position: absolute;
-      transform: translatex(150%);
-  }
-
-  #drawn-cards-0, #drawn-cards-1 {
-    position: absolute;
-    align-self: flex-start;
-    top: 390px;
-    right: 50%;
-    transform: translateX(55%);
-  }
-  .drawn-card {
-    width: 25px;
-    display: inline-block;
-    margin-right: 10px;
-    margin-top: 10px;
-  }
-}
-
 /* Players */
 
 .player-name {
@@ -147,6 +73,59 @@ h1 {
     margin-top: 20px;
     margin-bottom: 10px;
     position: relative;
+}
+
+.winner-text {
+  background-color: #EB4D4D;
+  background-image: linear-gradient(
+    -75deg,
+    transparent 0,
+    transparent 5%,
+    rgba(255,255,255,0.5) 5%,
+    rgba(255,255,255,0.5) 10%,
+    transparent 10%,
+    transparent 100%
+    );
+  background-size: 200% 100%;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  animation: shimmer 2s linear infinite;
+}
+
+.draw-text {
+  background-color: #555;
+  background-image: linear-gradient(
+    -75deg,
+    transparent 0,
+    transparent 5%,
+    rgba(255,255,255,0.5) 5%,
+    rgba(255,255,255,0.5) 10%,
+    transparent 10%,
+    transparent 100%
+    );
+  background-size: 200% 100%;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  animation: shimmerdraw 2s linear infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  100% {
+    background-position: -120% 0%;
+  }
+}
+@keyframes shimmerdraw {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  100% {
+    background-position: -120% 0%;
+  }
 }
 
 .player-score {
@@ -256,8 +235,13 @@ button:focus {
     box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.10);
 }
 
-/* #card-1 { top: 120px; }
-#card-2 { top: 250px; } */
+#card-2 {
+    left: 51%;
+    transform: translateX(-50%);
+    transform: translateX(-50%) rotate(15deg);
+    box-shadow: none;
+    display: none;
+}
 
 #drawn-cards-0, #drawn-cards-1 {
   position: absolute;
@@ -270,4 +254,118 @@ button:focus {
   width: 27.5px;
   display: inline-block;
   margin-right: 10px;
+}
+
+@media (max-width: 1000px) {
+  .wrapper {
+    width: 100vw;
+  }
+
+  .player-0-panel,
+  .player-1-panel {
+      width: 50%;
+      float: left;
+      height: 600px;
+      padding: 100px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+
+  /* Players */
+
+  .player-name {
+      font-size: 40px;
+      text-transform: uppercase;
+      letter-spacing: 10px;
+      font-weight: 100;
+      margin: 20px 0 10px;
+  }
+
+  .player-score {
+      text-align: center;
+      font-size: 80px;
+      font-weight: 100;
+      color: #EB4D4D;
+      margin-top: 130px;
+      align-self: center;
+      position: absolute;
+      left: 50%;
+      transform: translatex(-50%);
+  }
+
+  .active { background-color: #f7f7f7; }
+  .active .player-name { font-weight: 300; }
+
+  .active .player-name::after {
+      content: "\2022";
+      font-size: 47px;
+      position: absolute;
+      color: #EB4D4D;
+      align-self: center;
+      position: absolute;
+      transform: translatex(125%);
+  }
+
+  #drawn-cards-0, #drawn-cards-1 {
+    position: absolute;
+    align-self: flex-start;
+    top: 390px;
+    right: 50%;
+    transform: translateX(55%);
+  }
+  .drawn-card {
+    width: 25px;
+    display: inline-block;
+    margin-right: 10px;
+    margin-top: 10px;
+  }
+}
+
+@media (max-height: 600px) {
+
+  #heading {
+    font-size: 36px;
+    font-weight: 600;
+    color: darkgray;
+    position: absolute;
+    top: 1vh;
+    left: 50%;
+    transform: translateX(-50%);
+    text-transform: uppercase;
+    letter-spacing: 1.125px;
+    z-index: 99;
+  }
+
+  .player-0-panel,
+  .player-1-panel {
+      height: 100vh;
+      padding: 100px;
+      position: relative;
+  }
+
+  .btn-new { top: 12.5vh;}
+  .btn-draw { top: 75vh;}
+  .btn-hold { top: 85vh;}
+
+  .card {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 100px;
+      box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.10);
+  }
+
+  #drawn-cards-0, #drawn-cards-1 {
+    position: absolute;
+    top: 80vh;
+  }
+
+  .drawn-card {
+    width: 27.5px;
+    display: inline-block;
+    margin-right: 10px;
+  }
 }
