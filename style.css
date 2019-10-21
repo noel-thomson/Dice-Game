@@ -1,7 +1,3 @@
-/**********************************************
-*** GENERAL
-**********************************************/
-
 * {
     margin: 0;
     padding: 0;
@@ -94,6 +90,7 @@ h1 {
 
 .draw-text {
   background-color: #555;
+  font-weight: 300;
   background-image: linear-gradient(
     -75deg,
     transparent 0,
@@ -323,7 +320,7 @@ button:focus {
   }
 }
 
-@media (max-height: 600px) {
+@media (max-height: 750px) {
 
   #heading {
     font-size: 36px;

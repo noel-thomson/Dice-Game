@@ -1,47 +1,35 @@
-let gameOn;
-let scores;
-let activePlayer;
-let cardValue;
-let cardSrc;
-let suits = ['C', 'D', 'H', 'S'];
-let faces = ['J', 'Q', 'K', 'N'];
-let drawnCard;
-let drawnCards;
-let holdCount;
-let drawCount;
+let gameOn; let activePlayer; let scores; let cardValue; let cardSrc;
+let drawnCard; let drawnCards; let holdCount; let drawCount;
+
+const suits = ['C', 'D', 'H', 'S'];
+const faces = ['J', 'Q', 'K', 'N'];
 const cardDisplay = document.querySelector('.card');
 const playerOneCards = document.getElementById('drawn-cards-0');
 const playerTwoCards = document.getElementById('drawn-cards-1');
 const miniCards = document.getElementsByClassName('drawn-card');
-
 const btnNewGame = document.querySelector('.btn-new');
 const btnDrawCard = document.querySelector('.btn-draw');
-
+const btnHold = document.querySelector('.btn-hold');
 const click = new Audio('./sounds/click.wav');
 const drawOne = new Audio('./sounds/draw-one.wav');
-const drawTwo = new Audio('./sounds/draw-two.wav');
 const bust = new Audio('./sounds/bust.wav');
 const winner = new Audio('./sounds/winner.wav');
 
-// myParent.insertBefore(myElement, myParent.firstElementChild); <-- add to beginning
-// myParent.removeChild(myElement); <-- remove specific element
-// myParent.replaceChild(replaceMe, newElement); <-- replace element with another
+btnNewGame.addEventListener('click', init);
+btnNewGame.addEventListener('click', playClick);
 
 init();
 
 function init() {
   gameOn = true;
   scores = [0, 0];
-  activePlayer = 0; // used to read score from scores array
+  activePlayer = 0;
   drawnCards = [
     playerOne = [],
     playerTwo = [],
-  ];
-  holdCount = 0;
-  drawCount = [
-    playerOne = [0],
-    playerTwo = [0],
-  ];
+  ]; // card values
+  holdCount = [0, 0];
+  drawCount = [0, 0];
 
   cardDisplay.style.display = 'none';
   document.getElementById('score-0').textContent = '0';
@@ -65,13 +53,13 @@ function init() {
 }
 
 // draw card
-document.querySelector('.btn-draw').addEventListener('click', function () {
+btnDrawCard.addEventListener('click', function () {
   if (gameOn) {
-    holdCount = 0;
-    cardValue = Math.floor(Math.random() * 10) + 1;
-    drawCount[activePlayer]++; // implement two cards
+    drawCount[activePlayer]++;
     playDrawOne();
 
+    // determine card value, suit, face
+    cardValue = Math.floor(Math.random() * 10) + 1;
     if (cardValue === 10) {
       faceValue = Math.floor(Math.random() * 3) + 1;
       suitValue = Math.floor(Math.random() * 3) + 1;
@@ -87,8 +75,8 @@ document.querySelector('.btn-draw').addEventListener('click', function () {
       cardDisplay.style.display = 'block';
     }
 
+    // create minicard and append
     drawnCard = document.createElement('img');
-
     if (activePlayer === 0) {
       playerOneCards.appendChild(drawnCard);
     } else {
@@ -98,13 +86,15 @@ document.querySelector('.btn-draw').addEventListener('click', function () {
     drawnCard.src = cardSrc;
     drawnCard.classList.add('drawn-card');
 
+    // determine initial value of an ace
     if (cardValue === 1 && scores[activePlayer] < 11) {
       cardValue = 11;
     }
 
-    drawnCards[activePlayer].push(cardValue); // push drawn card into arr
+    // push value of card into arr
+    drawnCards[activePlayer].push(cardValue);
 
-    // convert ace value from 11 to 1
+    // determine conversion of ace's value
     let index = drawnCards[activePlayer].indexOf(11);
     if (scores[activePlayer] + cardValue > 21 && index !== -1) {
       drawnCards[activePlayer][index] = 1; // turn 11 to 1
@@ -113,12 +103,13 @@ document.querySelector('.btn-draw').addEventListener('click', function () {
         sum += drawnCards[activePlayer][i];
       }
 
-      scores[activePlayer] = sum; // calc score minus cardValue
+      scores[activePlayer] = sum; // recalc score minus current cardValue
     }
 
     console.log('0: ' + drawnCards[0]);
     console.log('1: ' + drawnCards[1]);
 
+    // game logic
     if (scores[activePlayer] + cardValue === 21) {
       scores[activePlayer] += cardValue;
       document.querySelector('#current-' + activePlayer).textContent = 'Winner';
@@ -156,16 +147,16 @@ document.querySelector('.btn-draw').addEventListener('click', function () {
 });
 
 // hold score
-document.querySelector('.btn-hold').addEventListener('click', function () {
+btnHold.addEventListener('click', function () {
   if (gameOn) {
     if (drawCount[activePlayer] < 2) {
       playBust();
       return;
     }
 
-    holdCount++;
+    holdCount[activePlayer]++;
     playClick();
-    if (holdCount > 2 && (scores[0] > 0 && scores[1] > 0)) {
+    if (holdCount[activePlayer] > 0 && (scores[0] > 0 && scores[1] > 0)) {
       if (scores[0] > scores[1]) {
         playWinner();
         document.querySelector('#current-' + 0).textContent = 'Winner';
@@ -208,10 +199,6 @@ function switchPlayer() {
   cardDisplay.style.display = 'none';
 }
 
-// new game
-btnNewGame.addEventListener('click', init);
-btnNewGame.addEventListener('click', playClick);
-
 function playClick() {
   click.play();
 }
@@ -224,10 +211,10 @@ function playDrawOne() {
   drawOne.play();
 }
 
-function playDrawTwo() {
-  drawTwo.play();
-}
-
 function playWinner() {
   winner.play();
 }
+
+// myParent.insertBefore(myElement, myParent.firstElementChild); <-- add to beginning
+// myParent.removeChild(myElement); <-- remove specific element
+// myParent.replaceChild(replaceMe, newElement); <-- replace element with another
