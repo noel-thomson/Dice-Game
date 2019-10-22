@@ -1,10 +1,10 @@
 let gameOn; let activePlayer; let scores; let cardValue; let cardSrc;
-let drawnCard; let drawnCards; let holdCount; let drawCount;
+let drawnCards; let holdCount; let drawCount; let cards;
 
-const suits = ['C', 'D', 'H', 'S'];
-const faces = ['J', 'Q', 'K', 'N'];
+let drawnCard; // rename to miniCard
+
 const cardDisplay = document.querySelector('.card');
-const miniCards = document.getElementsByClassName('drawn-card');
+const miniCards = document.getElementsByClassName('drawn-card'); // rename mini-card
 const click = new Audio('./sounds/click.wav');
 const drawOne = new Audio('./sounds/draw-one.wav');
 const bust = new Audio('./sounds/bust.wav');
@@ -14,15 +14,19 @@ document.querySelector('.btn-draw').addEventListener('click', function () {
   if (gameOn) {
     playDrawOne();
     drawCount[activePlayer]++;
-    cardValue = Math.floor(Math.random() * 10) + 1;
-    determineCardSrc(cardValue);
-    appendMiniCard(cardSrc);
+    determineCard();
+    appendMiniCard(cardSrc); // rename drawnCard in fn
     initialAceValue(cardValue);
     drawnCards[activePlayer].push(cardValue); // push cardValue into arr
     determineAceConversion(cardValue); // determine if ace value should change
-    console.log('0: ' + drawnCards[0]);
-    console.log('1: ' + drawnCards[1]);
     gameLogic(cardValue, scores);
+
+    // console.log(cardValue);
+    // console.log('0: ' + drawnCards[0]);
+    // console.log('1: ' + drawnCards[1]);
+    // console.log(cardSrc);
+    // console.log(cards);
+
   } else {
     playWinner();
   }
@@ -60,35 +64,122 @@ function init() {
   gameOn = true;
   activePlayer = 0;
   scores = [0, 0];
+  cardValue = 0;
+  cardSrc = '';
   drawnCards = [
     playerOne = [], // cardValue(s)
     playerTwo = [], // cardValue(s)
   ];
   holdCount = [0, 0];
   drawCount = [0, 0];
+  cards = ['1C', '1D', '1H', '1S', '2C', '2D', '2H', '2S',
+            '3C', '3D', '3H', '3S', '4C', '4D', '4H', '4S',
+            '5C', '5D', '5H', '5S', '6C', '6D', '6H', '6S',
+            '7C', '7D', '7H', '7S', '8C', '8D', '8H', '8S',
+            '9C', '9D', '9H', '9S', '10NC', '10ND', '10NH',
+            '10NS', '10JC', '10JD', '10JH', '10JS', '10QC',
+            '10QD', '10QH', '10QS', '10KC', '10KD', '10KH',
+            '10KS',
+          ];
   resetDom();
 }
 
-function determineCardSrc() { // requires cardValue
-  if (cardValue === 10) {
-    faceValue = Math.floor(Math.random() * 3) + 1;
-    suitValue = Math.floor(Math.random() * 3) + 1;
-    face = faces[faceValue];
-    suit = suits[suitValue];
-    cardSrc = './cards/' + cardValue + face + suit + '.png';
-    cardDisplay.src = cardSrc;
-    cardDisplay.style.display = 'block';
+function determineCard() {
+  num = Math.floor(Math.random() * 52) + 1;
+  if (num < 5) {
+    cardValue = 1;
+    cardSrc = num === 1 ? '1C'
+    : num === 2 ? '1D'
+    : num === 3 ? '1H'
+    : '1S';
+  } else if (num > 4 && num < 9) {
+    cardValue = 2;
+    cardSrc = num === 5 ? '2C'
+    : num === 6 ? '2D'
+    : num === 7 ? '2H'
+    : '2S';
+  } else if (num > 8 && num < 13) {
+    cardValue = 3;
+    cardSrc = num === 9 ? '3C'
+    : num === 10 ? '3D'
+    : num === 11 ? '3H'
+    : '3S';
+  } else if (num > 12 && num < 17) {
+    cardValue = 4;
+    cardSrc = num === 13 ? '4C'
+    : num === 14 ? '4D'
+    : num === 15 ? '4H'
+    : '4S';
+  } else if (num > 16 && num < 21) {
+    cardValue = 5;
+    cardSrc = num === 17 ? '5C'
+    : num === 18 ? '5D'
+    : num === 19 ? '5H'
+    : '5S';
+  } else if (num > 20 && num < 25) {
+    cardValue = 6;
+    cardSrc = num === 21 ? '6C'
+    : num === 22 ? '6D'
+    : num === 23 ? '6H'
+    : '6S';
+  } else if (num > 24 && num < 29) {
+    cardValue = 7;
+    cardSrc = num === 25 ? '7C'
+    : num === 26 ? '7D'
+    : num === 27 ? '7H'
+    : '7S';
+  } else if (num > 28 && num < 33) {
+    cardValue = 8;
+    cardSrc = num === 29 ? '8C'
+    : num === 30 ? '8D'
+    : num === 31 ? '8H'
+    : '8S';
+  } else if (num > 32 && num < 37) {
+    cardValue = 9;
+    cardSrc = num === 33 ? '9C'
+    : num === 34 ? '9D'
+    : num === 35 ? '9H'
+    : '9S';
+  } else if (num > 36 && num < 41) {
+    cardValue = 10;
+    cardSrc = num === 37 ? '10NC'
+    : num === 38 ? '10ND'
+    : num === 39 ? '10NH'
+    : '10NS';
+  } else if (num > 40 && num < 45) {
+    cardValue = 10;
+    cardSrc = num === 41 ? '10JC'
+    : num === 42 ? '10JD'
+    : num === 43 ? '10JH'
+    : '10JS';
+  } else if (num > 44 && num < 49) {
+    cardValue = 10;
+    cardSrc = num === 45 ? '10QC'
+    : num === 46 ? '10QD'
+    : num === 47 ? '10QH'
+    : '10QS';
   } else {
-    suitValue = Math.floor(Math.random() * 3) + 1;
-    suit = suits[suitValue];
-    cardSrc = './cards/' + cardValue + suit + '.png';
+    cardValue = 10;
+    cardSrc = num === 49 ? '10KC'
+    : num === 50 ? '10KD'
+    : num === 51 ? '10KH'
+    : '10KS';
+  }
+
+  let index = cards.indexOf(cardSrc); // find index
+  if (index !== -1) {
+    cardSrc = './cards/' + cardSrc + '.png';
     cardDisplay.src = cardSrc;
     cardDisplay.style.display = 'block';
+    cards.splice(index, 1);
+  } else {
+    determineCard();
   }
+
 }
 
 function appendMiniCard() { // requires cardSrc
-  drawnCard = document.createElement('img');
+  drawnCard = document.createElement('img'); // rename drawnCard to miniCard
   if (activePlayer === 0) {
     document.getElementById('drawn-cards-0').appendChild(drawnCard);
   } else {
@@ -96,7 +187,7 @@ function appendMiniCard() { // requires cardSrc
   }
 
   drawnCard.src = cardSrc;
-  drawnCard.classList.add('drawn-card');
+  drawnCard.classList.add('drawn-card'); // rename class to mini-card
 }
 
 function initialAceValue() { // requires cardValue
@@ -124,14 +215,14 @@ function gameLogic() { // requires cardValue and scores
     scores[activePlayer] += cardValue;
     document.querySelector('#current-' + activePlayer).textContent = 'Winner';
     document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
-    gameOn = false;
     document.querySelector('#current-' + activePlayer).classList.add('winner-text');
+    gameOn = false;
   } else if (scores[activePlayer] + cardValue > 21) {
+    playBust();
     setTimeout(function () {
       playWinner();
     }, 300);
 
-    playBust();
     scores[activePlayer] += cardValue;
     document.querySelector('#current-' + activePlayer).textContent = 'Bust';
     document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
@@ -224,7 +315,3 @@ function playDrawOne() {
 function playWinner() {
   winner.play();
 }
-
-// myParent.insertBefore(myElement, myParent.firstElementChild); <-- add to beginning
-// myParent.removeChild(myElement); <-- remove specific element
-// myParent.replaceChild(replaceMe, newElement); <-- replace element with another
