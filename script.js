@@ -1,16 +1,90 @@
-let gameOn; let activePlayer; let scores; let cardValue; let cardSrc;
+let gameOn; let activePlayer; let scores; let cardValue; let cardSrc; let drawnCard; 
 let drawnCards; let holdCount; let drawCount; let cards;
 
-let drawnCard; // rename to miniCard
-
 const cardDisplay = document.querySelector('.card');
-const miniCards = document.getElementsByClassName('drawn-card'); // rename mini-card
+const miniCards = document.getElementsByClassName('drawn-card');
 const click = new Audio('./sounds/click.wav');
 const drawOne = new Audio('./sounds/draw-one.wav');
 const bust = new Audio('./sounds/bust.wav');
 const winner = new Audio('./sounds/winner.wav');
 
-document.querySelector('.btn-draw').addEventListener('click', function () {
+init();
+
+function init() {
+  gameOn = true;
+  activePlayer = 0;
+  scores = [0, 0];
+  cardValue = 0;
+  cardSrc = "";
+  drawnCards = [
+    (playerOne = []), // cardValue(s)
+    (playerTwo = []) // cardValue(s)
+  ];
+  holdCount = [0, 0];
+  drawCount = [0, 0];
+  cards = [
+    "1C",
+    "1D",
+    "1H",
+    "1S",
+    "2C",
+    "2D",
+    "2H",
+    "2S",
+    "3C",
+    "3D",
+    "3H",
+    "3S",
+    "4C",
+    "4D",
+    "4H",
+    "4S",
+    "5C",
+    "5D",
+    "5H",
+    "5S",
+    "6C",
+    "6D",
+    "6H",
+    "6S",
+    "7C",
+    "7D",
+    "7H",
+    "7S",
+    "8C",
+    "8D",
+    "8H",
+    "8S",
+    "9C",
+    "9D",
+    "9H",
+    "9S",
+    "10NC",
+    "10ND",
+    "10NH",
+    "10NS",
+    "10JC",
+    "10JD",
+    "10JH",
+    "10JS",
+    "10QC",
+    "10QD",
+    "10QH",
+    "10QS",
+    "10KC",
+    "10KD",
+    "10KH",
+    "10KS"
+  ];
+  resetDom();
+}
+
+document.querySelector('.btn-new').addEventListener('click', function () {
+  playClick();
+  init();
+});
+
+document.querySelector(".btn-draw").addEventListener("click", function() {
   if (gameOn) {
     playDrawOne();
     drawCount[activePlayer]++;
@@ -26,13 +100,12 @@ document.querySelector('.btn-draw').addEventListener('click', function () {
     // console.log('1: ' + drawnCards[1]);
     // console.log(cardSrc);
     // console.log(cards);
-
   } else {
     playWinner();
   }
 });
 
-document.querySelector('.btn-hold').addEventListener('click', function () {
+document.querySelector(".btn-hold").addEventListener("click", function() {
   if (gameOn) {
     if (drawCount[activePlayer] < 2) {
       playBust();
@@ -41,7 +114,7 @@ document.querySelector('.btn-hold').addEventListener('click', function () {
 
     holdCount[activePlayer]++;
     playClick();
-    if (holdCount[activePlayer] > 0 && (scores[0] > 0 && scores[1] > 0)) {
+    if (holdCount[activePlayer] > 0 && scores[0] > 0 && scores[1] > 0) {
       gameEnd();
       gameOn = false;
       return;
@@ -52,37 +125,6 @@ document.querySelector('.btn-hold').addEventListener('click', function () {
 
   playClick();
 });
-
-document.querySelector('.btn-new').addEventListener('click', function () {
-  playClick();
-  init();
-});
-
-init();
-
-function init() {
-  gameOn = true;
-  activePlayer = 0;
-  scores = [0, 0];
-  cardValue = 0;
-  cardSrc = '';
-  drawnCards = [
-    playerOne = [], // cardValue(s)
-    playerTwo = [], // cardValue(s)
-  ];
-  holdCount = [0, 0];
-  drawCount = [0, 0];
-  cards = ['1C', '1D', '1H', '1S', '2C', '2D', '2H', '2S',
-            '3C', '3D', '3H', '3S', '4C', '4D', '4H', '4S',
-            '5C', '5D', '5H', '5S', '6C', '6D', '6H', '6S',
-            '7C', '7D', '7H', '7S', '8C', '8D', '8H', '8S',
-            '9C', '9D', '9H', '9S', '10NC', '10ND', '10NH',
-            '10NS', '10JC', '10JD', '10JH', '10JS', '10QC',
-            '10QD', '10QH', '10QS', '10KC', '10KD', '10KH',
-            '10KS',
-          ];
-  resetDom();
-}
 
 function determineCard() {
   num = Math.floor(Math.random() * 52) + 1;
